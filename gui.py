@@ -27,7 +27,7 @@ class password_generator(ctk.CTk):
         self.generate_button.grid(row=0, column=0, padx=20, pady=10)
 
         self.password_label = ctk.CTkLabel(self, text = "")
-        self.password_label.grid(pady = 10)
+        self.password_label.grid(rpady = 10)
 
         
 

@@ -5,6 +5,8 @@ import math
 def generate_password(length, upper = True, lower = True, 
                       digits = True, special = True):
 
+    required_chars = []
+
     try:
         length = int(length)
 
@@ -15,15 +17,18 @@ def generate_password(length, upper = True, lower = True,
 
     if upper:
         chars += string.ascii_uppercase
+        required_chars.append(secrets.choice(string.ascii_uppercase))
 
     if lower:
         chars += string.ascii_lowercase
-
+        required_chars.append(secrets.choice(string.ascii_lowercase))
     if digits:
         chars += string.digits
+        required_chars.append(secrets.choice(string.digits))
 
     if special:
         chars += string.punctuation
+        required_chars.append(secrets.choice(string.punctuation))
 
     if not chars:
         raise ValueError("Select at least one character type")
@@ -32,10 +37,14 @@ def generate_password(length, upper = True, lower = True,
         raise ValueError("Password needs to be between 8 and 128 characters long")
 
 
-    password = ""
+    password = required_chars[:]
 
-    for _ in range(length):
-        password += secrets.choice(chars)
+    while len(password) < length:
+        password.append(secrets.choice(chars))
+
+    secrets.SystemRandom().shuffle(password)
+
+    password = "".join(password)
 
     return password, chars, length
     
