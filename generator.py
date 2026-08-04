@@ -46,7 +46,10 @@ def generate_password(length, upper = True, lower = True,
 
     password = "".join(password)
 
+    print(len(password))
+
     return password, chars, length
+
     
 
 def calculate_entropy(chars, length):
@@ -72,9 +75,9 @@ def get_password_strength(entropy):
 
 
 
-tests = [8, 12, 16, 24, 32]
+#tests = [8, 12, 16, 24, 32]
 
-for test in tests:
+#for test in tests:
 
     password, chars, length = generate_password(test)
     entropy = calculate_entropy(chars, length)

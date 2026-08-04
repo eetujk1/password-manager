@@ -1,4 +1,5 @@
 import customtkinter as ctk
+import generator_window
 
 
 class MainWindow(ctk.CTk):
@@ -40,7 +41,7 @@ class MainWindow(ctk.CTk):
         self.generate_button = ctk.CTkButton(
                     self.button_frame,
                     text="Generate password",
-                
+                    command=self.open_generator
                     )    
 
         self.generate_button.grid(row=6, column=0, padx=(0, 10), pady=20)
@@ -51,6 +52,9 @@ class MainWindow(ctk.CTk):
 
         self.save_button = ctk.CTkButton(self.button_frame, text = "Save")
         self.save_button.grid(row=6, column=1)
+
+    def open_generator(self):
+        generator_window.generator_window(self)
 
 
 
