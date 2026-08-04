@@ -53,8 +53,9 @@ class MainWindow(ctk.CTk):
         self.save_button = ctk.CTkButton(self.button_frame, text = "Save")
         self.save_button.grid(row=6, column=1)
 
+
     def open_generator(self):
-        generator_window.generator_window(self)
+        self.generator_window = generator_window.generator_window(self)
 
 
 
