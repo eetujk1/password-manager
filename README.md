@@ -2,11 +2,15 @@
 
 A secure password manager written in Python with a CustomTkinter GUI.
 
-# Features
+## Features
 
-- Password generation 
-- Encrypted password storage
-- User-friendly interface
+:lock: Secure password storage  
 
-# status
-- in progress
+:key: Password generator  
+
+:computer: CustomTkinter GUI  
+
+
+
+## Status
+:construction: In Progress
