@@ -53,9 +53,22 @@ class MainWindow(ctk.CTk):
         self.save_button = ctk.CTkButton(self.button_frame, text = "Save")
         self.save_button.grid(row=6, column=1)
 
+        self.generator_frame = generator_window.generatorFrame(self)
+        self.generator_frame.grid(
+            row=0,
+            column=0,
+            padx=20,
+            pady=10,
+            sticky="nsew"
+        )
+
+        self.generator_frame.grid_remove()
+
+
 
     def open_generator(self):
-        self.generator_window = generator_window.generator_window(self)
+        self.generator_frame.grid()
+
 
 
 

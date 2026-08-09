@@ -2,144 +2,213 @@ import generator
 import customtkinter as ctk
 
 
+class generatorFrame(ctk.CTkFrame):
+
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.parent = parent
 
 
-class generator_window(ctk.CTkToplevel):
-        def __init__(self, parent):
-                super().__init__(parent)
-                self.parent = parent
-                self.title("Password Generation")
-                self.geometry("600x500")
+        self.grid_columnconfigure(0, weight=1)
 
-                self.grid_columnconfigure(0, weight=1)
+        # Password length
+        self.length_label = ctk.CTkLabel(
+            self,
+            text="Choose password length"
+        )
+        self.length_label.grid(
+            row=0,
+            column=0,
+            padx=20,
+            pady=10,
+            sticky="ew"
+        )
 
-                self.length_label = ctk.CTkLabel(
-                           self,
-                           text="Choose password length"
-                       )
-               
-                self.length_label.grid(row=0, column=0, padx = 20, pady = 10, sticky ="ew") 
+        self.length_entry = ctk.CTkEntry(
+            self,
+            placeholder_text="Password length"
+        )
+        self.length_entry.grid(
+            row=1,
+            column=0,
+            padx=20,
+            pady=10
+        )
 
-                self.length_entry = ctk.CTkEntry(self, placeholder_text="Password length")
-                self.length_entry.grid(row=1, column=0, padx = 20, pady = 10)
+        # Character options
+        self.uppercase_var = ctk.BooleanVar(value=True)
+        self.uppercase_checkbox = ctk.CTkCheckBox(
+            self,
+            text="Uppercase letters",
+            variable=self.uppercase_var
+        )
+        self.uppercase_checkbox.grid(
+            row=2,
+            column=0,
+            padx=20,
+            pady=5,
+            sticky="w"
+        )
 
-                self.uppercase_var = ctk.BooleanVar(value=True)
-                self.uppercase_checkbox = ctk.CTkCheckBox(
-                self,
-                text="Uppercase letters",
-                variable=self.uppercase_var
-                )
+        self.lowercase_var = ctk.BooleanVar(value=True)
+        self.lowercase_checkbox = ctk.CTkCheckBox(
+            self,
+            text="Lowercase letters",
+            variable=self.lowercase_var
+        )
+        self.lowercase_checkbox.grid(
+            row=3,
+            column=0,
+            padx=20,
+            pady=5,
+            sticky="w"
+        )
 
-                self.uppercase_checkbox.grid(
-                row=2,
-                column=0,
-                padx=20,
-                pady=5,
-                sticky="w"
-                )
+        self.digits_var = ctk.BooleanVar(value=True)
+        self.digits_checkbox = ctk.CTkCheckBox(
+            self,
+            text="Digits",
+            variable=self.digits_var
+        )
+        self.digits_checkbox.grid(
+            row=4,
+            column=0,
+            padx=20,
+            pady=5,
+            sticky="w"
+        )
 
-                self.lowercase_var = ctk.BooleanVar(value=True)
-                self.lowercase_checkbox = ctk.CTkCheckBox(
-                self,
-                text = "Lowercase letters",
-                variable=self.lowercase_var)
+        self.special_var = ctk.BooleanVar(value=True)
+        self.special_checkbox = ctk.CTkCheckBox(
+            self,
+            text="Special",
+            variable=self.special_var
+        )
+        self.special_checkbox.grid(
+            row=5,
+            column=0,
+            padx=20,
+            pady=5,
+            sticky="w"
+        )
 
+        # Generated password
+        self.password_label = ctk.CTkLabel(
+            self,
+            text=""
+        )
+        self.password_label.grid(
+            row=6,
+            column=0,
+            padx=20,
+            pady=10
+        )
 
-                self.lowercase_checkbox.grid(
-                row=3,
-                column=0,
-                padx=20,
-                pady=5,
-                sticky="w"
-                )
+        # Password strength
+        self.strength_label = ctk.CTkLabel(
+            self,
+            text="Password strength"
+        )
+        self.strength_label.grid(
+            row=7,
+            column=0,
+            padx=20,
+            pady=5
+        )
 
-                self.digits_var = ctk.BooleanVar(value=True)
-                self.digits_checkbox = ctk.CTkCheckBox(
-                self,
-                text = "digits",
-                variable=self.digits_var)
+        self.strength_progress = ctk.CTkProgressBar(self)
+        self.strength_progress.grid(
+            row=8,
+            column=0,
+            padx=20,
+            pady=5,
+            sticky="ew"
+        )
+        self.strength_progress.set(0)
 
+        # Generate button
+        self.generate_button = ctk.CTkButton(
+            self,
+            text="Generate password",
+            command=self.generate
+        )
+        self.generate_button.grid(
+            row=9,
+            column=0,
+            padx=20,
+            pady=10
+        )
 
-                self.digits_checkbox.grid(
-                row=4,
-                column=0,
-                padx=20,
-                pady=5,
-                sticky="w"
-                        )
+        self.back_button = ctk.CTkButton(self, text = "Back", command = self.close_generator)
+        self.back_button.grid(row=10, column=0, sticky = "w")
 
-                self.special_var = ctk.BooleanVar(value=True)
-                self.special_checkbox = ctk.CTkCheckBox(
-                self,
-                text = "special",
-                variable=self.special_var)
+        # Use password button
+        self.use_button = ctk.CTkButton(
+            self,
+            text="Use password",
+            command=self.use_password
+        )
+        self.use_button.grid(
+            row=10,
+            column=0,
+            padx=20,
+            pady=10
+        )
 
+        # Copy button
+        self.copy_button = ctk.CTkButton(
+            self,
+            text="Copy",
+            command=self.copy_password
+        )
+        self.copy_button.grid(
+            row=11,
+            column=0,
+            padx=20,
+            pady=10
+        )
 
-                self.special_checkbox.grid(
-                row=5,
-                column=0,
-                padx=20,
-                pady=5,
-                sticky="w"
-                        )
+    def generate(self):
+        length = int(self.length_entry.get())
 
-                self.generate_button = ctk.CTkButton(
-                        self,
-                        text="Generate password",
-                        command=self.generate
-                )    
+        password, chars, length = generator.generate_password(
+            length,
+            upper=self.uppercase_var.get(),
+            lower=self.lowercase_var.get(),
+            digits=self.digits_var.get(),
+            special=self.special_var.get()
+        )
 
-                self.generate_button.grid(row=7, column=0, padx=(0, 10), pady=20)
+        self.password_label.configure(text=password)
+        self.get_entropy_and_strength(chars, length)
 
-                self.password_label = ctk.CTkLabel(self, text = "")
-                self.password_label.grid(row = 6, column = 0, padx = 20, pady =10)
+    def close_generator(self):
+        self.grid_remove()  
 
-                self.copy_button = ctk.CTkButton(
-                        self,
-                        text="Copy",
-                        command=self.copy_password
-                )    
+    def copy_password(self):
+        password = self.password_label.cget("text")
 
-                self.copy_button.grid(row=9, column=0, padx=(0, 10), pady=20)
+        self.clipboard_clear()
+        self.clipboard_append(password)
 
-                self.use_button = ctk.CTkButton(
-                        self, 
-                        text = "Use password",
-                        command = self.use_password)
+        self.copy_button.configure(text="Copied!")
 
-                self.use_button.grid(
-                row=8,
-                column=0,
-                pady=10
-                )
+    def use_password(self):
+        password = self.password_label.cget("text")
 
-      
-        def generate(self):
-                length = int(self.length_entry.get())
-                password, chars, length = generator.generate_password(
-                        length,
-                        upper = self.uppercase_var.get(),
-                        lower = self.lowercase_var.get(),
-                        digits = self.digits_var.get(),
-                        special = self.special_var.get()
-                )
+        self.parent.password_entry.delete(0, "end")
+        self.parent.password_entry.insert(0, password)
 
-                self.password_label.configure(text=password)
+        self.parent.generator_frame.grid_remove()
 
+    def get_entropy_and_strength(self, chars, length):
+        entropy = generator.calculate_entropy(chars, length)
+        strength, progress = generator.get_password_strength(entropy)
 
-        def copy_password(self):
-                password = self.password_label.cget("text")
-                self.clipboard_clear()
-                self.clipboard_append(password)
-                self.copy_button.configure(text="Copied!")
+        self.strength_label.configure(
+            text=f"Strength: {strength}"
+        )
 
-        def use_password(self):
-                password = self.password_label.cget("text")
-                self.parent.password_entry.delete(0,"end")
-                self.parent.password_entry.insert(0,password)
-                self.destroy()
-
-
-
-
+        self.strength_progress.set(progress)
 
