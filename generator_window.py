@@ -8,8 +8,6 @@ class generatorFrame(ctk.CTkFrame):
         super().__init__(parent)
 
         self.parent = parent
-
-
         self.grid_columnconfigure(0, weight=1)
 
         # Password length
@@ -184,7 +182,8 @@ class generatorFrame(ctk.CTkFrame):
         self.get_entropy_and_strength(chars, length)
 
     def close_generator(self):
-        self.grid_remove()  
+        self.grid_remove() 
+        self.parent.main_frame.grid() 
 
     def copy_password(self):
         password = self.password_label.cget("text")
@@ -201,6 +200,7 @@ class generatorFrame(ctk.CTkFrame):
         self.parent.password_entry.insert(0, password)
 
         self.parent.generator_frame.grid_remove()
+        self.parent.main_frame.grid() 
 
     def get_entropy_and_strength(self, chars, length):
         entropy = generator.calculate_entropy(chars, length)
