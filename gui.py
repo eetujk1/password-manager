@@ -38,7 +38,7 @@ class MainWindow(ctk.CTk):
         self.website_entry = ctk.CTkEntry(self.main_frame, placeholder_text = "Website")
         self.website_entry.grid(row=1, column=1, padx = 20, pady = 5, sticky = "ew")
 
-        self.usernameLabel = ctk.CTkLabel(self.main_frame, text="Username")
+        self.usernameLabel = ctk.CTkLabel(self.main_frame, text="Username / Email")
 
         self.usernameLabel.grid(row=2, column=1, padx = 20, pady = 5, sticky ="w")  
 
@@ -67,7 +67,7 @@ class MainWindow(ctk.CTk):
         self.password_label.grid(padx = 5)
 
 
-        self.save_button = ctk.CTkButton(self.button_frame, text = "Save")
+        self.save_button = ctk.CTkButton(self.button_frame, text = "Save", command = self.save_password)
         self.save_button.grid(row=6, column=1)
 
         self.passwords_button = ctk.CTkButton(self.button_frame, text="Show passwords", command = self.open_passwords)
@@ -97,6 +97,15 @@ class MainWindow(ctk.CTk):
                 )
 
         self.password_vault_frame.grid_remove()
+
+    def save_password(self):
+        password_data = {
+            "website": self.website_entry.get(),
+            "username": self.username_entry.get(),
+            "password": self.password_entry.get()
+        }
+
+        self.password_vault_frame.add_password(password_data)
 
 
     def open_passwords(self):
