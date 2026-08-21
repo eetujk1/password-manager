@@ -1,3 +1,5 @@
 passgen_env/
+passgen/
 __pycache__/
 *.pyc
+*.db
